@@ -17,7 +17,7 @@
 ## Diretórios do sistema:
 ### 1 - server;
 ### 2 - app;
-### 3 - install (helper de instalação e confiracao do sistema)
+### 3 - install (helper de instalação e configuração do sistema)
 
 Arquivos no path do sistema:
 	1 - .htaccess
