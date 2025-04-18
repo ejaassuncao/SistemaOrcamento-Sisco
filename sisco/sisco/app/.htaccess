@@ -1,0 +1,8 @@
+#captura erro se não econtrar a pagina. Pode ir para uma pagina alegre
+RewriteEngine On
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteRule ^(.*)$ main.html?url=$1 
+
+#pagina inicial do diretório
+DirectoryIndex 	main.html

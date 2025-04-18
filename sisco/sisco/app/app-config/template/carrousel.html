@@ -1,0 +1,24 @@
+<div class="wrapper">
+	<div class="jcarousel-wrapper">
+		<div class="jcarousel">
+			<ul style="left: 0px; top: 0px;">
+				<li ng-repeat="image in images" style="margin-right: 5px">
+					 {{image.caption | setMaxLength:30}}
+					<a  class="fancybox" ng-href="{{image.mini}}"  rel="group" 
+						data-fancybox-group="gallery" ng-attr-title="{{image.caption}}">
+						  
+						<img ng-src="{{image.thumbUrl}}" class="img-thumbnail"
+						>
+					</a>				  
+					<div class="btn-group pull-right" >
+						<button class="btn btn-default" ng-click="onClickRemove(image.mini)" ng-show="{{remove}}" ><i class="glyphicon glyphicon-remove"></i>&nbsp;</button>
+						<button class="btn btn-default" ng-click="onClickEdit(image.mini,image.caption)" ng-show="{{edit}}" ><i class="glyphicon glyphicon-pencil"></i>&nbsp;</button>
+					</div>									
+				</li>
+			</ul>
+		</div>
+		<a href="#" class="jcarousel-control-prev">&lsaquo;</a> <a href="#"
+			class="jcarousel-control-next">&rsaquo;</a>
+		<p class="jcarousel-pagination"></p>
+	</div>
+</div>

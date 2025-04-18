@@ -1,0 +1,97 @@
+<meta charset="UTF-8">
+<h3 class="title">{{pagina.titulo}}</h3>
+
+<fieldset class="fieldset box" on-enter="onClickFiltrar()">
+	<legend>{{pagina.legenda}}</legend>
+	<div class="row">
+		<div class="col-lg-3">
+			<label for="situacao">Situação</label> <select chosen
+				no-results-text="'Sem resultados para:'" id="situacao"
+				ng-init="dados.situacao='5'" class="form-control"
+				ng-model="dados.situacao"
+				ng-disabled="true"
+				ng-options="item.id as item.descricao for item in toList(view.dadosLov.situacao)">
+				<option value="">***Selecione***</option>
+			</select>
+		</div>
+		<div class="col-lg-3">
+			<label for="pesquisar_por">Pesquisar por:</label> <select chosen
+				no-results-text="'Sem resultados para:'" id="pesquisar_por"
+				ng-model="dados.filtro" class="form-control"				
+				ng-change="view.descricao=pesquisa.filtro.find('id',dados.filtro,'=')[0].descricao"
+				ng-options="item.id as item.descricao for item in toList(pesquisa.filtro)">
+				<option value="">***Selecione***</option>
+			</select>
+		</div>
+		<div class="col-lg-4" 
+			ng-hide="dados.filtro==='periodo_aprovacao' || dados.filtro==='p.data_aprovacao' || dados.filtro==='p.data_criacao'">
+			<label for="valor">{{(view.descricao)?view.descricao:'---'}}</label> <input id="valor" type="text"
+				class="form-control" ng-model="dados.valor" maxlength="80" />
+		</div>
+		<div class="col-lg-2"
+			ng-show="dados.filtro==='periodo_aprovacao' || dados.filtro==='p.data_aprovacao' || dados.filtro==='p.data_criacao'">
+			<label for="data1">{{view.descricao}}</label>
+			<div class="input-group date">
+				<input id="data1" type="text" mask-input="99/99/9999" datepicker2
+					class="form-control" name="DataFundacao" ng-model="dados.data1">
+				<span class="input-group-addon"><i
+					class="glyphicon glyphicon-th"></i></span>
+			</div>
+		</div>
+		<div class="col-lg-2" ng-show="dados.filtro==='periodo_aprovacao'">
+			<label for="data2">Data Final</label>
+			<div class="input-group date">
+				<input id="data2" type="text" mask-input="99/99/9999" datepicker2
+					class="form-control" name="DataFundacao" ng-model="dados.data2">
+				<span class="input-group-addon"><i
+					class="glyphicon glyphicon-th"></i></span>
+			</div>
+		</div>
+		<div class="col-lg-2 pull-right" style="margin-top: 30px">
+			<button type="button" class="btn btn-success pull-right"
+				ng-click="onClickFiltrar()" >
+				Filtrar <i class="glyphicon glyphicon-ok"></i>
+			</button>
+		</div>
+	</div>
+</fieldset>
+<div class="row">
+	<div class="col-lg-12">
+		<table datatable class="table" ng-source="view.resultado">
+			<thead>
+				<tr class="title-table">
+					<th bgcolor="#E4E4E4" class="col-lg-1">Nº Pedido</th>
+					<th bgcolor="#E4E4E4" class="col-lg-3"><strong>Descrição</strong></th>
+					<th bgcolor="#E4E4E4" class="col-lg-2"><strong>Cliente</strong></th>
+					<th bgcolor="#E4E4E4" class="col-lg-2"><strong>Estabelecimento</strong></th>
+					<th bgcolor="#E4E4E4" class="col-lg-1"><strong>Placa</strong></th>
+					<th bgcolor="#E4E4E4" class="col-lg-1"><strong>Criação</strong></th>
+					<th bgcolor="#E4E4E4" class="col-lg-1"><strong>Aprovação</strong></th>
+					<th bgcolor="#E4E4E4" class="col-lg-1"><strong>Acão</strong></th>
+				</tr>
+			<thead>
+			<tbody>
+				<tr ng-repeat="item in view.resultado">
+					<td>{{item.pedido_id}}</td>
+					<td>{{item.observacao}}</td>
+					<td>{{item.cliente_nome}}</td>
+					<td>{{item.estabelecimento}}</td>
+					<td>{{item.placa}}</td>
+					<td>{{item.data_criacao}}</td>
+					<td>{{item.data_aprovacao}}</td>
+					<td align="center">					
+					<a  visualizar-relatorio="Relatorio/RelatorioOrcamentoAprovado/{{item.pedido_id}}"
+									class="btn btn-default btn-xs" title="Visualizar Relatório">
+									<i class="glyphicon glyphicon-print"></i>
+					</a>					
+					<a  href="#/orcamento/visualizar-imagem/{{item.orcamento_id}}" target="_blank"
+									class="btn btn-default btn-xs" title="Visualizar Imagens">
+									<i class="glyphicon glyphicon-camera"></i>
+					</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<!--<script type="text/javascript" src="app-controller/relatorio.js"></script>-->

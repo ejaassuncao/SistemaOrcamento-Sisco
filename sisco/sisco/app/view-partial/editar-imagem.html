@@ -1,0 +1,25 @@
+<div class="modal-content">
+	<div class="modal-header sub-title">
+		<button type="button" class="close" ng-click="onClickFecharModal()">
+			<span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span>
+		</button>
+		<h4 class="modal-title" id="tituloModal">{{view.titulo}}</h4>
+	</div>
+	<div class="modal-body" id="conteudoModal">		
+		<textarea rows="5" cols="5" class="form-control" ng-model="dados.texto"></textarea>
+	</div>
+	<div class="modal-footer">
+		<div class="col-lg-6">
+			<button type="button" class="btn btn-danger pull-left"
+				ng-click="onClickFecharModal()">
+				<i class="glyphicon glyphicon-remove"></i>&nbsp; Sair
+			</button>
+		</div>
+		<div class="col-lg-6">
+			<button type="button" class="btn btn-success  pull-right"
+				ng-click="onClickSalvar()">
+				<i class="glyphicon glyphicon-ok"></i>&nbsp;Salvar
+			</button>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,5 @@
+===============================================================================
+					CORE
+===============================================================================
+	Esse sistema ficaram dados compartilados entre todos os sistema.
+	tabela como UF, cidade, Endreço, Usuarios, permissões, 

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt" ng-app="app">
+
+   <head>
+      <!-- metas tags -->
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <link rel="shortcut icon" href="img/logo_opt.png">
+      <!-- css -->
+      <link type="text/css" rel="stylesheet" href="css/jquery-ui.min.css"	media="all" />
+      <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"	media="all" />   
+      <link type="text/css" rel="stylesheet" href="css/toaster.min.css"	media="all" />
+      <link type="text/css" rel="stylesheet" href="css/chosen.min.css"	media="all" />
+      <link type="text/css" rel="stylesheet" href="css/select2.min.css"	media="all" />
+      <link type="text/css" rel="stylesheet" href="css/dataTables.bootstrap.min.css" media="all" />
+      <link type="text/css" rel="stylesheet" href="css/datepicker3.min.css"	media="all" />
+      <link type="text/css" rel="stylesheet" href="css/jcarousel.responsive.min.css" media="all">
+      <link type="text/css" rel="stylesheet" href="js/fancybox/jquery.fancybox.min.css" />  
+      <link type="text/css" rel="stylesheet" href="css/site.css" media="all" />
+     
+      <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!--[if lt IE 9]>
+                <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+                <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+              <![endif]-->
+      <title ng-bind-html="sistema.titulo"></title>
+   </head>
+   <body ng-cloak>
+      <div class="jquery-waiting-base-container">Carregando...</div>
+      <!--menu -->
+      <div class="navbar navbar-default navbar-fixed-top bg-topo"
+           ng-show="sistema.menu">
+         <div class="container">
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle" data-toggle="collapse"
+                       data-target=".navbar-collapse">
+                  <span class="icon-bar"></span><span class="icon-bar"></span> <span
+                     class="icon-bar"></span>
+               </button>
+               <a class="navbar-brand" href="#/home" title="Pagina Inicial">
+                  &nbsp;&nbsp;&nbsp;<img src="img/logo_opt.png" alt="" />
+               </a>
+            </div>
+            <div class="navbar-collapse collapse">
+               <ul class="nav navbar-nav navbar-right">
+                  <li class="dropdown"><a href=""
+                                          class="acoes-user dropdown-toggle" data-toggle="dropdown"><i
+                           class="glyphicon glyphicon-cog"></i></a>
+                     <ul class="dropdown-menu  ng-cloak">
+                        <li ng-show="UserNivel().In(1)"><a href="#/master"><i
+                                 class="glyphicon glyphicon-user"></i>&nbsp;Criar usuário
+                              administrador</a></li>
+                        <li ng-show="UserNivel().In(1)"><a href="#/configuracao"><i
+                                 class="glyphicon glyphicon-wrench"></i>&nbsp;Configurar sistema</a></li>
+                        <li ng-show="UserNivel().In(2, 3)"><a href=""
+                                                           ng-click="EditarSenha()"> <i
+                                 class="glyphicon glyphicon-user"></i>&nbsp;Editar senha
+                           </a></li>
+                        <li ng-show="UserNivel().In(2, 3)"><a href="#/configuracao"><span style="font-size:12pt;font-weight: bold;">?</span>&nbsp;Sobre</a></li>
+                        <li><a href="" ng-click="onClickDeslogar();chat.fechar()"><i
+                                 class="glyphicon glyphicon-log-out"></i>&nbsp;Sair</a></li>
+                     </ul></li>
+               </ul>
+               <div class="user pull-right  ng-cloak">
+                  <div class="bemvindo pull-left">
+                     <i class="glyphicon glyphicon-user"></i>&nbsp;{{sistema.saudacao}}
+                  </div>
+                  <div id="timer" class="crono pull-right">
+                     <i class="glyphicon glyphicon-time"></i> <span id="time">{{dataHora
+                                | date: 'hh:mm:ss'}}</span>
+                  </div>
+                  <div class="usuario  pull-left">{{user.Nome}}</div>
+               </div>
+               <!-- itens do menu -->
+               <ul class="nav navbar-nav navbar-right  ng-cloak" ng-controller="MenuCtrl">
+                  <li class="active"><a href="#/home"> <i
+                           class="glyphicon glyphicon-home"></i>
+                     </a></li>
+
+                  <li ng-repeat="menu in GetMenus()"><a href="{{menu.Rota}}"
+                                                        ng-show="menu.Ativo" class="{{menu.class}}"
+                                                        data-toggle="{{menu.data}}"> {{menu.Nome}} </a>
+                     <ul class="dropdown-menu" ng-show="{{menu.subItem !== undefined}}">
+                        <li ng-repeat="subMenu in menu.subItem"><a
+                              href="{{subMenu.Rota}}" ng-show="subMenu.Ativo">
+                              {{subMenu.Nome}} </a>
+                        </li>                              
+                     </ul>
+                  </li>
+
+                  <li id="alert_notificatoin_bar" class="dropdown open">
+                     <a data-toggle="dropdown" class="dropdown-toggle" href="#" ng-click="chat.abrirChat();
+                              chat.init();">
+                        <i class="glyphicon glyphicon-envelope" style="font-size: 14pt;"></i>
+                        <span class="badge bg-important" ng-show="chat.numAlert > 0">{{chat.numAlert}}</span>
+                     </a>                    
+                  </li>
+               </ul>
+               <!-- fim itens do menu -->
+            </div>
+         </div>
+      </div>
+      <!-- fim menu -->
+   <toaster-container toaster-options="{'time-out': 5000,'spinner':false}"></toaster-container>
+   <loading></loading>
+   
+   <div class="row fundo-imagem">
+      <!-- conteudo -->
+      <div id="conteudo" class="container-fluid conteudo {{(chat.visivel)?'col-lg-9':''}}" ng-view></div>
+      <!--chat-->
+      <div class="container-fluid col-lg-3 chat-conteiner pull-right" ng-show="chat.visivel">
+         <hb-chat></hb-chat>
+      </div>
+   </div>
+   <div class="rodape">
+      <div class="copy pull-left" ng-bind-html="sistema.rodape1"></div>
+      <div class="copy pull-left">Versão {{sistema.version}}</div>
+      <div class="copy pull-left" ng-bind-html="sistema.product"></div>
+      <div class="copy" ng-bind-html="sistema.rodape2"></div>
+   </div> 
+   <script type="text/javascript" src="js/LAB.js"></script>
+   <script type="text/javascript" src="js/load.js"></script>
+</body>
+</html>

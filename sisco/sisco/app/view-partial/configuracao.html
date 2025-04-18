@@ -1,0 +1,140 @@
+<meta charset="UTF-8">
+<h3 class="title">{{pagina.titulo}}</h3>
+
+<!-- Dados da categoria-->
+<div class="row"  ng-cloak>
+	<div class="wizard-steps well"   ng-cloak
+		style="overflow: hidden; margin-bottom: 25px;">
+		<div class="{{(view.aba===1)? 'active-step': 'completed-step'}}"  ng-show="UserNivel().In(1)"
+			ng-click="view.aba = 1">
+			<a href=""
+				class="{{(view.aba===1)? 'active-step': 'completed-step'}}"><span>1</span>Empresa</a>
+		</div>
+
+		<div class="{{(view.aba===2)? 'active-step': 'completed-step'}}" ng-show="UserNivel().In(1)"
+			ng-click="view.aba = 2">
+			<a href=""
+				class="{{(view.aba===2)? 'active-step': 'completed-step'}}"><span>2</span>E-mail</a>
+		</div>
+
+		<div class="{{(view.aba===3)? 'active-step': 'completed-step'}}" ng-show="UserNivel().In(1)"
+			ng-click="view.aba = 3">
+			<a href=""
+				class="{{(view.aba===3)? 'active-step': 'completed-step' }}"><span>3</span>Licença</a>
+		</div>
+		<div class="{{(view.aba===4)? 'active-step': 'completed-step'}}"
+			ng-click="view.aba = 4">
+			<a href=""
+				class="{{(view.aba===4)? 'active-step': 'completed-step' }}"><span>{{UserNivel().In(1)?4:1}}</span>Sobre</a>
+		</div>
+	</div>
+</div>
+
+<fieldset class="fieldset well" ng-show="view.aba===1" ng-cloak>
+	<legend>Empresa</legend>
+
+	<div class="row">
+		<div class="col-lg-6">
+			<label for="descricao">Empresa*</label> <input id="descricao"
+				type="text" class="form-control" ng-model="dados.empresa"
+				placeholder="Nome da empresa" maxlength="100" />
+		</div>
+		<div class="col-lg-8 ">
+			<label for="descricao">Logo da Empresa*</label><br> <img ng-click="onUpload()" src="{{image.thumbUrl}}"
+				alt="Logo marca da empresa" width="120" height="80" >
+		</div>
+
+
+	</div>
+
+	<div class="row"></div>
+
+</fieldset>
+
+<fieldset class="fieldset well" ng-show="view.aba===2" ng-cloak>
+	<legend>E-mail</legend>
+	<div class="row">
+		<div class="col-lg-4">
+			<label for="smtp_host">host*</label> <input id="smtp_host"
+				type="text" class="form-control" ng-model="dados.smtp_host"
+				placeholder="host do e-mail" maxlength="60" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-4">
+			<label for="smtp_user">Usuário*</label> <input id="smtp_user"
+				type="text" class="form-control" ng-model="dados.smtp_user"
+				placeholder="usuário de e-mail" maxlength="60" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-4">
+			<label for="smtp_password">Senha*</label> <input id="smtp_password"
+				type="password" class="form-control" ng-model="dados.smtp_pass"
+				placeholder="Senha do email" maxlength="60" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-2">
+			<label for="smtp_port">Porta*</label> <input id="smtp_port"
+				type="text" class="form-control" ng-model="dados.smtp_port"
+				placeholder="Porta de saida do email" maxlength="10" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-2">
+			<label for="smtp_timeout">Tempo expiração*</label> <input
+				id="smtp_timeout" type="text" class="form-control"
+				ng-model="dados.smtp_timeout" placeholder="timeout" maxlength="100" />
+		</div>
+	</div>
+</fieldset>
+
+<fieldset class="fieldset well" ng-show="view.aba===3" ng-cloak>
+	<legend>Licença(Não Modificar*)</legend>
+	<div class="row">
+		<div class="col-lg-10">
+			<label for="codigo">Licença</label> <input id="codigo" type="text"
+				disabled="disabled" class="form-control" ng-model="dados.myhost"
+				maxlength="60" />
+		</div>
+
+		<div class="col-lg-2">
+			<label for="codigo">Código</label> <input id="codigo" type="text"
+				class="form-control" ng-model="dados.id" disabled="disabled" />
+		</div>
+	</div>
+</fieldset>
+
+<fieldset class="fieldset well" ng-show="view.aba===4" ng-cloak>
+	<legend>Sobre</legend>
+	<div class="row">
+		<div class="col-lg-10">
+			<h4>
+				<small> 					
+					<span ng-bind-html="sistema.titulo"></span><br/><br/>
+					<span ng-bind-html="sistema.version"></span><br/><br/>
+					<span ng-bind-html="sistema.product"></span><br/><br/>
+					Email: <span ng-bind-html="sistema.autor"></span><br/><br/>
+					<span ng-bind-html="sistema.rodape2"></span><br/><br/>			
+			     </small>
+			</h4>
+		</div>
+	</div>
+</fieldset>
+
+<div class="row">
+	<div class="col-lg-6">
+		<a href="javascript:window.history.go(-1)" class="btn btn-primary">Voltar&nbsp;
+			<i class="glyphicon glyphicon-share-alt"></i>
+		</a>
+	</div>
+	<div class="col-lg-6"  ng-show="UserNivel().In(1)">
+		<button type="button" class="btn btn-success pull-right"
+			ng-click="onClickSalvar()">
+			Salvar <i class="glyphicon glyphicon-ok"></i>
+		</button>
+	</div>
+</div>
+
+<!--<script type="text/javascript" src="app-controller/configuracao.js"></script>-->

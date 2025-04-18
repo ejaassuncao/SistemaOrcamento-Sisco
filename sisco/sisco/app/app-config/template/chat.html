@@ -1,0 +1,165 @@
+<div class="row chat-box" ng-show="chat.visivel">  
+   <div class="col-lg-12">
+      <div class="panel panel-default">
+         <div class="panel-heading chat-cabecalho"> 
+            <div class="col-lg-1 pull-right chat-cabecalho-fechar"><a href="javascript://" ng-click="chat.fechar()"><i class="glyphicon glyphicon-remove"></i></a></div>  
+            <div ng-hide="chat.minimize" class="col-lg-1 pull-right chat-cabecalho-minimizar"><a href="javascript://" ng-click="chat.minimizar()"><i class="glyphicon glyphicon-minus"></i></a></div>
+            <div ng-show="chat.minimize" class="col-lg-1 pull-right chat-cabecalho-minimizar"><a href="javascript://" ng-click="chat.maximizar()"><i class="glyphicon glyphicon-fullscreen"></i></a></div> 
+         </div>         
+         <div ng-hide="chat.minimize">
+            <!--Conversação-->
+            <div ng-hide="chat.grupo">
+               <div class="panel-body  ng-cloak"> 
+                  <div class="row">
+                     <div class="col-lg-12">
+                        <a href="" ng-click="chat.grupo = true; chat.init();" title="Voltar">
+                           <i class="glyphicon glyphicon-circle-arrow-left"></i></a>   
+                     </div>
+                  </div>                  
+                  <div class="chat-display"  >  
+                     <div style="text-align: center; margin-top: 50%;margin-bottom: auto;"  ng-show="chat.loading" >
+                        <image ng-src="{{chat.src}}" title="loading..."/>  
+                        Carregado...
+                     </div>
+                     <div ng-repeat="item in chat.list" ng-hide="chat.loading">                         
+                        <div ng-show="item.nivel_remetente.In('1')" class="row">                              
+                           <div class="col-lg-12 chat-person01 chat-person02">                           
+                              <img  ng-src="{{ (item.src_foto === null) ? 'img/user1.png' : item.src_foto}}"
+                                    width="40px" height="40px" />{{item.nome}} 
+                              <div class="col-md-12 chat-msg" ng-class="(!item.remetente.In(user.Id))?'chat-cliente-msg': 'chat-estabelecimento-msg'" >
+                                 {{item.msg}} <br/><span class="chat-hora"> {{item.data_hora}}</span>
+                              </div>
+                           </div>                          
+                        </div>
+
+                        <div  ng-show="item.nivel_remetente.In('2')" class="row">                       
+                           <div class="col-lg-12 chat-person02">                           
+                              <img  ng-src="{{ (item.src_foto === null) ? 'img/user2.png' : item.src_foto}}"
+                                    width="40px" height="40px" />{{item.nome}} 
+                              <div class="col-md-12 chat-msg" ng-class="(!item.remetente.In(user.Id))?'chat-cliente-msg': 'chat-estabelecimento-msg'" >
+                                 {{item.msg}} <br/><span class="chat-hora"> {{item.data_hora}}</span>
+                              </div>
+                           </div>                          
+                        </div>  
+
+                        <div  ng-show="item.nivel_remetente.In('3')" class="row">                       
+                           <div class=" col-lg-12 chat-person02">                           
+                              <img  ng-src="{{ (item.src_foto === null) ? 'img/user3.png' : item.src_foto}}"
+                                    width="40px" height="40px" />{{item.nome}} 
+                              <div class="col-md-12 chat-msg" ng-class="(!item.remetente.In(user.Id))?'chat-cliente-msg': 'chat-estabelecimento-msg'" >
+                                 {{item.msg}} <br/><span class="chat-hora"> {{item.data_hora}}</span>
+                              </div>
+                           </div>                          
+                        </div>  
+
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-lg-12">   
+                        <button class="btn btn-link col-lg-12" ng-click="chat.historico();" title="Histórico">
+                           histórico</button>  
+                     </div>
+                  </div> 
+               </div>
+               <div class="panel-footer" ng-hide="chat.minimize">
+                  <div class="row"> 
+                     <div class="col-lg-12">
+                        <textarea ng-enter="chat.cadastrar()" type="text" ng-model="chat.msg" class="form-control {{validation}}" placeholder="Digite sua mensagem aqui" maxlength="60" ></textarea>
+                     </div>
+                  </div>          
+               </div>
+            </div>
+            <!--Todos os usuários-->         
+            <div ng-show="chat.grupo"> 
+               <div class="row">
+                     <div class="col-lg-12 text-center">
+                        <image ng-src="{{chat.ball_verde}}"/>ONLINE |
+                        <image ng-src="{{chat.ball_vermelho}}"/>OFFLINE
+                     </div>
+                  </div>
+               <div class="chat-display ng-cloak" >                  
+                  <div class="panel-group" id="accordion" role="tablist" >
+                     <!--administrador panel-success"-->
+                     <div class="panel panel-default" ng-hide="toList(chat.dados.administrador).length === 0">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                           <h4 class="panel-title">
+                              <a role="button" data-toggle="collapse" data-parent="#accordion" ng-click="chat.collapseOne = 1" aria-expanded="chat.collapseOne===1" aria-controls="collapseOne">
+                                 Administrador <span class="badge bg-important" ng-show="chat.dados.alert_administrador > 0">{{chat.dados.alert_administrador}}</span>
+                              </a>
+                           </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse {{(chat.collapseOne===1)?'in':''}}" aria-labelledby="headingOne" >
+                           <div class="panel-body">
+                              <ul ng-repeat="item in toList(chat.dados.administrador)" style="list-style-type: none;">
+                                 <li class="chat-link-pessoa">                                     
+                                    <a role="button" ng-click="chat.verMensagem(item.id, item.nivel);chat.init();">                                        
+                                       <image ng-src="{{(item.online==='1')?chat.ball_verde:chat.ball_vermelho}}">
+                                          <img ng-src="{{ (item.src_foto === null) ? 'img/user1.png' : item.src_foto}}" width="40px" height="40px" />
+                                          {{item.nome}} &nbsp; 
+                                          <span  class="badge bg-important" ng-show="item.alert_usuario" >{{item.alert_usuario}}</span>                                      
+                                    </a>
+                                 </li>
+                              </ul>
+                                <span ng-hide="toList(chat.dados.administrador).length>0">Não exite outros administradores</span>
+                           </div>
+                        </div>
+                     </div>
+                     <!--cliente panel-warning-->
+                     <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingThree">
+                           <h4 class="panel-title">
+                              <a class="collapsed" role="button" ng-click="chat.collapseOne = 2;" >
+                                 Cliente <span class="badge bg-important" ng-show="chat.dados.alert_cliente > 0">{{chat.dados.alert_cliente}}</span>
+                              </a>
+                           </h4>
+                        </div>
+                        <div class="panel-collapse collapse {{(chat.collapseOne===2)?'in':''}}" >
+                           <div class="panel-body">
+                              <ul ng-repeat="item in toList(chat.dados.cliente)" style="list-style-type: none;">
+                                 <li class="chat-link-pessoa">                                                                      
+                                    <a role="button" ng-click="chat.verMensagem(item.id, item.nivel);
+                                       chat.init();">                                      
+                                       <image ng-src="{{(item.online==='1')?chat.ball_verde:chat.ball_vermelho}}"/>
+                                       <img ng-src="{{ (item.src_foto === null) ? 'img/user2.png' : item.src_foto}}"
+                                            width="40px" height="40px" />{{item.nome}} &nbsp;
+                                       <span  class="badge bg-important" ng-show="item.alert_usuario" >
+                                          {{item.alert_usuario}}</span>
+                                    </a>
+                                 </li>
+                              </ul>
+                               <span ng-hide="toList(chat.dados.cliente).length>0">Não exite outros clientes</span>
+                           </div>
+                        </div>
+                     </div>
+                     <!--estabelecimento  panel-info-->
+                     <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                           <h4 class="panel-title">
+                              <a class="collapsed" role="button" ng-click="chat.collapseOne = 3" >
+                                 Estabelecimento <span class="badge bg-important" ng-show="chat.dados.alert_estabelecimento > 0">{{chat.dados.alert_estabelecimento}}</span>
+                              </a>
+                           </h4>
+                        </div>
+                        <div class="panel-collapse collapse {{(chat.collapseOne===3)?'in':''}}">
+                           <div class="panel-body">
+                              <ul ng-repeat="item in toList(chat.dados.estabelecimento)" style="list-style-type: none;">
+                                 <li class="chat-link-pessoa">                                    
+                                       <a role="button" ng-click="chat.verMensagem(item.id, item.nivel); chat.init();">                                        
+                                          <image ng-src="{{(item.online==='1')?chat.ball_verde:chat.ball_vermelho}}"/>
+                                          <img ng-src="{{ (item.src_foto === null) ? 'img/user3.png' : item.src_foto}}" width="40px" height="40px" />
+                                          {{item.nome}} &nbsp;
+                                          <span  class="badge bg-important" ng-show="item.alert_usuario" >{{item.alert_usuario}}</span>                                         
+                                       </a>                                 
+                                 </li>                                   
+                              </ul>
+                              <span ng-hide="toList(chat.dados.estabelecimento).length>0">Não exite outros estabelecimentos</span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>              
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

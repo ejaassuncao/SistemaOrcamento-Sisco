@@ -1,0 +1,104 @@
+<meta charset="UTF-8">
+<h3 class="title">{{pagina.titulo}}</h3>
+<!-- Dados da categoria-->
+<fieldset class="fieldset well  col-lg-6">
+	<legend>{{pagina.legenda}}</legend>
+	<div class="row">
+		<div class="col-lg-4">
+			<label for="codigo">Código</label> <input id="codigo" type="text"
+				class="form-control" ng-model="dados.id" disabled="disabled" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<label for="descricao">Nome*</label> <input id="descricao"
+				type="text" class="form-control" ng-model="dados.nome"
+				maxlength="30" />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<label for="descricao">E-mail*</label> <input id="email" type="text"
+				class="form-control" ng-model="dados.email" maxlength="40" />
+		</div>
+	</div>
+	<div class="row" ng-show="(dados.id>0)">
+		<div class="col-lg-12"><a href="" ng-click="(view.alterarSenha)?view.alterarSenha=false:view.alterarSenha=true">Alterar Senha?</a></div>
+	</div>
+	
+	
+	<div class="row" ng-show="(view.alterarSenha)">
+		<div class="col-lg-12">
+			<label for="Senha">Senha Atual</label> <input id="descricao"
+				type="password" class="form-control" ng-model="view.senhaCheck"
+				maxlength="10" ng-blur="checaSenha()"  ng-disabled="(view.senhaOK)"  />
+		</div>
+	</div>	
+	
+	<div class="row" ng-show="(!dados.id>0) || (view.senhaOK)">
+		<div class="col-lg-12">
+			<label for="Senha">{{view.alterarSenha?'Nova Senha*':'Senha*'}}</label> <input id="descricao"
+				type="password" class="form-control" ng-model="dados.senha"
+				maxlength="10"/>
+		</div>
+	</div>
+	
+	<div class="row" ng-show="(!dados.id>0) || (view.senhaOK)">
+		<div class="col-lg-12">
+			<label for="Senha">{{view.alterarSenha?'Repita a sua nova senha*':'Repita a sua senha*'}} </label> <input id="descricao"
+				type="password" class="form-control" ng-model="view.senha2"
+				maxlength="10" />
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="btn-group pull-right" style="margin-top: 30px">
+				<button type="button" class="btn btn-success pull-left"
+					ng-click="onClickSalvar()">
+					{{(dados.id>0)?'Salvar':'Inserir'}} <i
+						class="glyphicon glyphicon-ok"></i>
+				</button>
+				<button type="button" class="btn btn-default" ng-show="(dados.id>0)"
+					ng-click="onClickDesfazer()">
+					Desfazer <i class="glyphicon glyphicon-share-alt"></i>
+				</button>
+				<a href="#/home" class="btn btn-primary pull-left"> <i class="glyphicon glyphicon-share-alt"></i> Voltar
+				</a>
+			</div>
+		</div>
+	</div>
+</fieldset>
+<!-- grade-->
+<fieldset class="fieldset well col-lg-6">
+	<legend>{{pagina.legenda}}</legend>
+	<table
+		class="table table-bordered table-striped table-hover table-condensed cf">
+		<thead>
+			<tr class="title-table">
+               <th class="col-lg-1">Foto</th>
+				<th class="col-lg-1">Código</th>
+				<th class="col-lg-4">Nome</th>
+				<th class="col-lg-4">Email</th>
+				<th class="col-lg-2">Ações</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in toList(grade.lista)">
+                  <td align="center" ><image ng-src="{{(item.src_foto===null)?view.fotoDefault:item.src_foto}}" width="50"/></td>
+				<td>{{item.id}}</td>
+				<td>{{item.nome}}</td>
+				<td>{{item.email}}</td>
+				<td><a class="btn btn-default btn-xs"
+					ng-click="onClickEditarUsuario(item)"><i
+						class="glyphicon glyphicon-pencil"></i></a>
+                    <a class="btn btn-default btn-xs" ng-click="onClickCarregarFoto(item.id)" title="carregar foto"><i class="glyphicon glyphicon-picture"></i></a>
+                </td>
+			</tr>
+			<tr ng-show="lista.length===0">
+				<td colspan="4" align="center">Não há usuários cadastrados</td>
+			</tr>
+		</tbody>
+	</table>
+</fieldset>
+<!--<script type="text/javascript" src="app-controller/master.js"></script>-->

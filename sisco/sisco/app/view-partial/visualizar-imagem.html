@@ -1,0 +1,27 @@
+<meta charset="UTF-8">
+<h3 class="title">{{pagina.titulo}}</h3>
+<div ng-controller="imagemCtrl">
+	<div class="row">
+		<div class="col-lg-12">
+			<span class=" btn-group  pull-right">
+				<button class="btn btn-default" ng-show="view.isImagem===''"
+					ng-click="ImprimirNoBrower('print');">
+					Imprimir&nbsp;<i class="glyphicon glyphicon-print"></i>
+				</button>				
+			</span>
+		</div>
+	</div>
+	<!-- Dados-->
+	<fieldset id="print" class="fieldset well">	
+		<legend>{{pagina.legenda}} N° {{view.id}}</legend>	
+		<div class="list-group">
+			<a ng-repeat="image in images" href="{{image.thumbUrl}}"
+				target="_blank" class="col-xs-12 col-md-12 thumbnail"
+				style="text-decoration: none;"> <img src="{{image.thumbUrl}}"
+				alt="texto"> <br /> {{image.caption | setMaxLength:30}}
+			</a>
+			 <span style="color: red">{{view.isImagem}}</span>
+		</div>		
+	</fieldset>	
+</div>
+<!--<script type="text/javascript" src="app-controller/imagem.js"></script>-->

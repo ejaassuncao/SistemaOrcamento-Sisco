@@ -1,0 +1,87 @@
+<meta charset="UTF-8">
+<h3 class="title">{{pagina.titulo}}</h3>
+
+<!-- Dados da categoria-->
+<fieldset class="fieldset well">
+	<legend>{{pagina.legenda}}</legend>
+
+	<div class="row">
+		<div class="col-lg-1">
+			<label for="codigo">Código</label> <input id="codigo" type="text"
+				class="form-control" ng-model="dados.id" disabled="disabled" />
+		</div>
+	
+		<div class="col-lg-3">
+			<label for="categoria_id">Categoria*</label> <select id="categoria_id" chosen
+				no-results-text="'Sem resultados para:'" class="form-control"
+				ng-model="dados.categoria_id"
+				ng-change="onChangeCarregaGrupo(dados.categoria_id)"
+				ng-init="onChangeCarregaGrupo(dados.categoria_id)"
+				ng-options="item.id as item.descricao for item in toList(lov.categoria)">
+				<option value="">***Selecione***</option>
+			</select>
+		</div>
+		<div class="col-lg-2">
+			<label for="grupo">Grupo*</label> <select id="grupo" chosen
+				no-results-text="'Sem resultados para:'" class="form-control"
+				ng-model="dados.grupo_id" 				
+				ng-options="item.id as item.descricao for item in toList(lov.grupo)">
+				<option value="">***Selecione***</option>
+			</select>
+		</div>
+		<div class="col-lg-3">
+			<label for="descricao">Descrição*</label> <input id="descricao"
+				type="text" class="form-control" ng-model="dados.descricao"
+				maxlength="100" />
+		</div>
+		<div class="col-lg-3" style="margin-top: 31px;">
+			<div class="btn-group pull-right">
+				<button type="button" class="btn btn-success pull-left"
+					ng-click="onClickSalvar()">
+					{{(view.editar)?'Salvar':'Inserir'}} <i class="glyphicon glyphicon-ok"></i>
+				</button>
+				<button type="button" class="btn btn-default pull-left" ng-show="view.editar"
+					ng-click="onClickDesfazerSalvar()">
+					Desfazer <i class="glyphicon glyphicon-share-alt"></i>
+				</button>
+				<a href="" onclick="javascript:history.back(-1);" class="btn btn-primary">Voltar&nbsp; <i class="glyphicon glyphicon-share-alt"></i></a>
+			</div>
+		</div>
+	</div>
+</fieldset>
+<!-- grade-->
+<fieldset class="fieldset well">
+	<legend>Dados dos usuário</legend>
+	<div class="row">
+		<div class="col-lg-12">
+			<table
+				class="table table-bordered table-striped table-hover table-condensed cf">
+				<thead>
+					<tr class="title-table">
+						<th class="col-lg-2">Código</th>
+						<th class="col-lg-2">Categoria</th>						
+						<th class="col-lg-2">Grupo</th>						
+						<th class="col-lg-4">Descrição</th>
+						<th class="col-lg-1">Ações</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr ng-repeat="item in toList(grade.lista)">
+						<td>{{item.id}}</td>
+						<td>{{item.categoria_descricao}}</td>
+						<td>{{item.grupo_descricao}}</td>
+						<td>{{item.descricao}}</td>
+						<td><a class="btn btn-default btn-xs"
+							ng-click="onClickEditarItem(item)"><i
+								class="glyphicon glyphicon-pencil"></i></a></td>
+					</tr>
+					<tr ng-show="lista.length===0">
+						<td colspan="4" align="center">Não há dados cadastrados</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>	
+</fieldset>
+<!--<script type="text/javascript" src="app-controller/sub-grupo.js"></script>-->

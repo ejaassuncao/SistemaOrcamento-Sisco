@@ -1,0 +1,81 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<div class="modal-content"  nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter" >
+    <div class="modal-header sub-title">
+        <button type="button" class="close" ng-click="onClickFecharModal()">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span>
+        </button>
+        <h4 class="modal-title" id="tituloModal">{{view.title}}</h4>
+    </div>
+    <div class="modal-body" id="conteudoModal">
+        <div ng-show="uploader.isHTML5 && view.dropZone">
+            <div class="well my-drop-zone" nv-file-over="over" over-class="dragover" uploader="uploader">
+                Arraste seus arquivos até aqui...
+            </div>
+        </div>
+        <div ng-show="view.limiteArquivos > 1">
+            <h4>Fila de arquivos</h4>
+            <p class="ng-binding">Total de arquivos: {{uploader.queue.length}} -  N° maximo de arquivos por vez  {{view.limiteArquivos}}</p>
+        </div>
+        <div ng-class="{{(view.limiteArquivos===1)?'scroll01':'scroll'}}">
+            <table class="table  input-small">
+                <thead>
+                    <tr>
+                        <th width="50%">Nome</th>
+                        <th ng-show="uploader.isHTML5">Tamanho</th>
+                        <th ng-show="uploader.isHTML5">Progresso</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in uploader.queue" class="ng-scope">
+
+                        <td><strong class="ng-binding">{{item.file.name}}</strong></td>
+                        <td ng-show="uploader.isHTML5" nowrap="" class="ng-binding">{{Conveter(item.file.size)}}</td>
+                        <td ng-show="uploader.isHTML5">
+                            <div class="progress" style="margin-bottom: 0;">
+                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }" style="width: 0%;"></div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                            <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                            <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                        </td>
+                        <td nowrap="">
+                            <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess" ng-show="view.limiteArquivos > 1">
+                                <span class="glyphicon glyphicon-upload"></span>Carregar
+                            </button>
+                            <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading" disabled="disabled" ng-show="view.limiteArquivos > 1">
+                                <span class="glyphicon glyphicon-ban-circle"></span>Cancelar
+                            </button>
+                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()" ng-disabled="item.isReady || item.isUploading || item.isSuccess" ng-show="view.limiteArquivos > 1">
+                                <span class="glyphicon glyphicon-trash"></span>Remover
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div>
+                Fila de progresso:
+                <div class="progress" style="">
+                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }" style="width: 0%;"></div>
+                </div>
+            </div>
+            <input type="file" id="file" nv-file-select="" uploader="uploader" data-multiple="true" multiple accept="" class="hidden" />
+            <input type="button" value="Selecionar" class="btn btn-primary" onclick="document.getElementById('file').click();" />
+
+            <button type="button" class="btn btn-success" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length" disabled="disabled">
+                <span class="glyphicon glyphicon-upload"></span>&nbsp;<span ng-show="view.limiteArquivos > 1">Carregar Todos</span><span ng-show="view.limiteArquivos == 1"> Enviar</span>
+            </button>
+            <button type="button" class="btn btn-warning" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading" disabled="disabled" ng-show="view.limiteArquivos > 1">
+                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;Cancelar todos 
+            </button>
+            <button type="button" class="btn btn-danger" ng-click="uploader.clearQueue()" ng-disabled="uploader.getNotUploadedItems().length===0" disabled="disabled" ng-show="view.limiteArquivos > 1">
+                <span class="glyphicon glyphicon-trash"></span>&nbsp;Remover todos
+            </button>
+        </div>
+    </div>
+</div>
